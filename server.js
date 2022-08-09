@@ -15,17 +15,21 @@ const port = process.env.PORT || 8000;
 connectDB();
 
 const app = express();
+app.use(express.json());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+// app.use(bodyParser.json({ limit: "30mb", extended: true }));
+// app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 import testRoutes from "./routes/test.js";
 app.use("/api/test", testRoutes);
+
+import authRoutes from "./routes/authRoutes.js";
+app.use("/api/auth", authRoutes);
 
 app.use(errorHandler);
 
