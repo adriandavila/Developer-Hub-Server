@@ -1,56 +1,69 @@
-import jwt from "jwt-decode";
+import jwt_decode from "jwt-decode";
+import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
-
-// @desc    Register new user
-// @route   POST /api/auth
-// @access  Public
-export const registerUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  const { email, name } = req.body;
-  if (!email || !name) {
-    res.status(400);
-    throw new Error("Please add all fields");
-  }
-
-  // Check if user exists
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    res.status(400);
-    throw new Error("User already exists!");
-  }
-
-  // Create use
-  const user = await User.create({
-    name,
-    email,
-    picture: req.body.picture ? req.body.picture : null,
-  });
-
-  if (user) {
-    res.status(201).json({
-      _id: user.id,
-      email: user.email,
-      name: user.name,
-      picture: user.picture,
-      role: user.role,
-    });
-  } else {
-    res.status(400);
-    throw new Error("Invalid user data");
-  }
-});
 
 // @desc    Authenticate a user
 // @route   POST /api/auth/login
 // @access  Public
 export const loginUser = asyncHandler(async (req, res) => {
-  res.json({ message: "Login user" });
+  const { token } = req.body;
+
+  if (!token) {
+    res.status(400);
+    throw new Error("Please add token");
+  }
+
+  const decodedToken = jwt_decode(token);
+  const newUser = {
+    email: decodedToken.email,
+    name: decodedToken.name,
+    picture: decodedToken.picture,
+  };
+
+  try {
+    let user = await User.findOne({ email: newUser.email });
+
+    if (user) {
+      res.status(200);
+    } else {
+      user = await User.create(newUser);
+      res.status(201);
+    }
+    res.json({
+      email: user.email,
+      name: user.name,
+      picture: user.picture,
+      role: user.role,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      token: generateToken(user._id),
+    });
+  } catch (error) {
+    res.status(400);
+    throw new Error("Login failed");
+  }
 });
 
 // @desc    Get user data
 // @route   POST /api/auth/me
-// @access  Public
+// @access  Private
 export const getMe = asyncHandler(async (req, res) => {
-  res.json({ message: "User data" });
+  const { _id, name, email } = await User.findById(req.user.id);
+
+  res.status(200).json({ id: _id, name, email });
 });
+
+// @desc    Logout user
+// @route   POST /api/auth/logout
+// @access  Public
+export const logout = asyncHandler(async (req, res) => {
+  res.json({ message: "Logout route" });
+});
+
+// Generate JWT
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};

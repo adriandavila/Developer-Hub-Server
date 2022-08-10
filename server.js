@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import bodyParser from "body-parser";
 import cors from "cors";
+import session from "express-session";
 import morgan from "morgan";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 import { connectDB } from "./config/db.js";
@@ -23,6 +23,13 @@ if (process.env.NODE_ENV === "development") {
 
 // app.use(bodyParser.json({ limit: "30mb", extended: true }));
 // app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(
+  session({
+    secret: "SECRET KEY",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 app.use(cors());
 
 import authRoutes from "./routes/authRoutes.js";
