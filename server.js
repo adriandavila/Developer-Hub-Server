@@ -35,6 +35,9 @@ app.use(cors());
 import authRoutes from "./routes/authRoutes.js";
 app.use("/api/auth", authRoutes);
 
+import notificationsRoutes from "./routes/notificationsRoutes.js";
+app.use("/api/notifications", notificationsRoutes);
+
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
