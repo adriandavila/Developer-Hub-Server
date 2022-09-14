@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ApiMonitorSchema = mongoose.Schema({
+const ApiLogSchema = mongoose.Schema({
   datetime: {
     type: Date,
     required: [true, "Please add a datetime"],
@@ -40,4 +40,4 @@ const ApiMonitorSchema = mongoose.Schema({
   },
 });
 
-export default mongoose.model("User", ApiMonitorSchema);
+export default mongoose.model("ApiErrorLog", ApiLogSchema);
