@@ -38,6 +38,9 @@ export const deleteApiLog = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc seed some api logs
+// @route GET /api/api-logs/seed
+// @access Private
 export const seedApiErrorLogs = asyncHandler(async (req, res) => {
   try {
     const routeOptions = ["/element", "/element/update", "/data/gmti"];
