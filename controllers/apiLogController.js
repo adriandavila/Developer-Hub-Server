@@ -13,7 +13,13 @@ export const getApiLogs = asyncHandler(async (req, res) => {
 // @route POST /api/api-logs
 // @access Private
 export const postApiLog = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "POST api log" });
+  try {
+    const newLog = req.body;
+    await ApiLog.create(newLog);
+    res.status(200).json({ message: "Successfully added log to the DB!" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 // @desc delete an api log
@@ -25,11 +31,11 @@ export const deleteApiLog = asyncHandler(async (req, res) => {
     if (targetID) {
       await ApiLog.deleteOne({ _id: targetID });
     }
+    res.status(200).json({ message: "Successfully deleted API log!" });
   } catch (err) {
     res.status(500).json(err);
     return;
   }
-  res.status(200).json({ message: "Successfully deleted API log!" });
 });
 
 export const seedApiErrorLogs = asyncHandler(async (req, res) => {
