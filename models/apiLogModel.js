@@ -4,6 +4,7 @@ const ApiLogSchema = mongoose.Schema({
   datetime: {
     type: Date,
     required: [true, "Please add a datetime"],
+    default: Date.now(),
   },
   route: {
     type: String,
