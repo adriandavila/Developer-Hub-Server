@@ -41,6 +41,9 @@ app.use("/api/user", userRoutes);
 import notificationsRoutes from "./routes/notificationsRoutes.js";
 app.use("/api/notifications", notificationsRoutes);
 
+import apiLogRoutes from "./routes/apiLogRoutes.js";
+app.use("/api/api-logs", apiLogRoutes);
+
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
