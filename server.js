@@ -35,6 +35,9 @@ app.use(cors());
 import authRoutes from "./routes/authRoutes.js";
 app.use("/api/auth", authRoutes);
 
+import userRoutes from "./routes/userRoutes.js";
+app.use("/api/user", userRoutes);
+
 import notificationsRoutes from "./routes/notificationsRoutes.js";
 app.use("/api/notifications", notificationsRoutes);
 
