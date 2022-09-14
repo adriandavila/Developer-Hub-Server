@@ -1,19 +1,35 @@
 import asyncHandler from "express-async-handler";
 import ApiLog from "../models/apiLogModel.js";
 
-// @desc Get all api error logs
+// @desc Get all api logs
 // @route GET /api/api-logs
 // @access Private
-export const getApiErrorLogs = asyncHandler(async (req, res) => {
+export const getApiLogs = asyncHandler(async (req, res) => {
   const apiErrorLogs = await ApiLog.find();
   res.status(200).json({ apiErrorLogs });
 });
 
-// @desc Add a new api error log
+// @desc Add a new api log
 // @route POST /api/api-logs
 // @access Private
-export const postApiErrorLog = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "POST api error log" });
+export const postApiLog = asyncHandler(async (req, res) => {
+  res.status(200).json({ message: "POST api log" });
+});
+
+// @desc delete an api log
+// @route DELETE /api/api-logs/:id
+// @access Private
+export const deleteApiLog = asyncHandler(async (req, res) => {
+  try {
+    const targetID = req.params.id;
+    if (targetID) {
+      await ApiLog.deleteOne({ _id: targetID });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+    return;
+  }
+  res.status(200).json({ message: "Successfully deleted API log!" });
 });
 
 export const seedApiErrorLogs = asyncHandler(async (req, res) => {
