@@ -41,4 +41,4 @@ const ApiLogSchema = mongoose.Schema({
   },
 });
 
-export default mongoose.model("ApiErrorLog", ApiLogSchema);
+export default mongoose.model("ApiLog", ApiLogSchema);
