@@ -3,7 +3,8 @@ import { protect } from "../middleware/authMiddleware.js";
 import {
   getApiErrorLogs,
   postApiErrorLog,
-} from "../controllers/apiMonitorController.js";
+  seedApiErrorLogs,
+} from "../controllers/apiLogController.js";
 
 const router = express.Router();
 
@@ -12,5 +13,8 @@ router.get("/", protect, getApiErrorLogs);
 
 // @route POST /api/api-logs/
 router.post("/", protect, postApiErrorLog);
+
+// @route GET /api/api-logs/seed
+router.get("/seed", protect, seedApiErrorLogs);
 
 export default router;
