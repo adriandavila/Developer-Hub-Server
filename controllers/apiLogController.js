@@ -5,8 +5,17 @@ import ApiLog from "../models/apiLogModel.js";
 // @route GET /api/api-logs
 // @access Private
 export const getApiLogs = asyncHandler(async (req, res) => {
-  const apiErrorLogs = await ApiLog.find();
-  res.status(200).json({ apiErrorLogs });
+  const apiLogs = await ApiLog.find();
+  res.status(200).json({ apiLogs });
+});
+
+// @desc Get all api logs formatted to work with the chart
+// @route GET /api/api-logs/chart-data
+// @access Private
+export const getChartData = asyncHandler(async (req, res) => {
+  const apiLogs = await ApiLog.find();
+
+  res.status(200).json({ apiLogs });
 });
 
 // @desc Add a new api log

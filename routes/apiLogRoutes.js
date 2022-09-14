@@ -2,6 +2,7 @@ import express from "express";
 import { protect } from "../middleware/authMiddleware.js";
 import {
   getApiLogs,
+  getChartData,
   postApiLog,
   deleteApiLog,
   seedApiErrorLogs,
@@ -11,6 +12,9 @@ const router = express.Router();
 
 // @route GET /api/api-logs/
 router.get("/", protect, getApiLogs);
+
+// @rpite GET api/api-logs/chart-data
+router.get("/chart-data", protect, getChartData);
 
 // @route POST /api/api-logs/
 router.post("/", protect, postApiLog);
